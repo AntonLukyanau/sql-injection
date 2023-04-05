@@ -1,0 +1,1 @@
+GET http://localhost:8080/people/Kostia'%3B%20drop%20table%20person%3B%20--
