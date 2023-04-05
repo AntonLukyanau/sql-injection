@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +22,12 @@ public class PersonDAO {
     private String PASSWORD;
 
     public List<Person> findByName(String name) {
+        String sql = "select * from person " +
+                " where person_name = '" + name + "';";
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement("select * from person " +
-                     " where person_name = ? ;")) {
+             Statement statement = connection.createStatement()) {
 
-            statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery(sql);
             List<Person> people = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
